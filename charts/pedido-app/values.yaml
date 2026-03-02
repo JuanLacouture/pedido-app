@@ -1,0 +1,80 @@
+# Values por defecto para pedido-app
+replicaCount: 1
+
+# PostgreSQL (subchart Bitnami)
+postgresql:
+  enabled: true
+  primary:
+    persistence:
+      enabled: true
+      size: 8Gi
+    resources:
+      requests:
+        cpu: 250m
+        memory: 256Mi
+      limits:
+        cpu: 500m
+        memory: 512Mi
+  auth:
+    postgresPassword: "pedido123"  # Mover a Secret después
+    username: "pedidos_user"
+    password: "userpass123"
+    database: "pedidos"
+    existingSecret: ""  # Para prod
+
+# Backend Spring Boot
+backend:
+  image:
+    repository: "tuusuario/pedido-backend"  # Cambia por tu Docker Hub
+    tag: "latest"
+    pullPolicy: IfNotPresent
+  replicas: 2
+  port: 8080
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+  dbHost: "{{ .Release.Name }}-postgresql"  # Auto desde subchart
+  dbName: "pedidos"
+  dbUser: "pedidos_user"
+  dbPassword: "userpass123"  # Referenciar Secret
+
+# Frontend React
+frontend:
+  image:
+    repository: "tuusuario/pedido-frontend"
+    tag: "latest"
+    pullPolicy: IfNotPresent
+  replicas: 1
+  port: 3000  # O 80 con nginx
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 128Mi
+
+# Service/Ingress comunes
+service:
+  type: ClusterIP
+ingress:
+  enabled: true
+  className: "nginx"  # Asume Ingress NGINX instalado
+  hosts:
+    - host: pedido.local  # Edita /etc/hosts para test local
+      paths:
+        - path: /api
+          pathType: Prefix
+        - path: /
+          pathType: Prefix
+
+# HPA Backend
+hpa:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 70
