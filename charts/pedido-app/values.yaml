@@ -16,17 +16,16 @@ postgresql:
         cpu: 500m
         memory: 512Mi
   auth:
-    postgresPassword: "pedido123"  # Mover a Secret después
-    username: "pedidos_user"
-    password: "userpass123"
-    database: "pedidos"
-    existingSecret: ""  # Para prod
+    postgresPassword: pedido123
+    username: pedidos_user
+    password: userpass123
+    database: pedidos
 
 # Backend Spring Boot
 backend:
   image:
-    repository: "tuusuario/pedido-backend"  # Cambia por tu Docker Hub
-    tag: "latest"
+    repository: juanlacouture/pedido-backend
+    tag: latest
     pullPolicy: IfNotPresent
   replicas: 2
   port: 8080
@@ -37,19 +36,15 @@ backend:
     limits:
       cpu: 500m
       memory: 512Mi
-  dbHost: "{{ .Release.Name }}-postgresql"  # Auto desde subchart
-  dbName: "pedidos"
-  dbUser: "pedidos_user"
-  dbPassword: "userpass123"  # Referenciar Secret
 
 # Frontend React
 frontend:
   image:
-    repository: "tuusuario/pedido-frontend"
-    tag: "latest"
+    repository: juanlacouture/pedido-frontend
+    tag: latest
     pullPolicy: IfNotPresent
   replicas: 1
-  port: 3000  # O 80 con nginx
+  port: 80
   resources:
     requests:
       cpu: 50m
@@ -58,19 +53,12 @@ frontend:
       cpu: 200m
       memory: 128Mi
 
-# Service/Ingress comunes
+# Comunes
 service:
   type: ClusterIP
 ingress:
   enabled: true
-  className: "nginx"  # Asume Ingress NGINX instalado
-  hosts:
-    - host: pedido.local  # Edita /etc/hosts para test local
-      paths:
-        - path: /api
-          pathType: Prefix
-        - path: /
-          pathType: Prefix
+  className: nginx
 
 # HPA Backend
 hpa:

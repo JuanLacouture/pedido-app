@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "pedido-app.fullname" . }}-backend
+spec:
+  replicas: {{ .Values.backend.replicas }}
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend
+        image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag }}"
+        imagePullPolicy: {{ .Values.backend.image.pullPolicy }}
+        ports:
+        - containerPort: {{ .Values.backend.port }}
+        env:
+        - name: SPRING_DATASOURCE_URL
+          value: jdbc:postgresql://$(DB_HOST):5432/$(DB_NAME)
+        - name: DB_HOST
+          value: {{ .Values.backend.dbHost | quote }}
+        - name: DB_NAME
+          value: {{ .Values.backend.dbName | quote }}
+        - name: DB_USER
+          value: {{ .Values.backend.dbUser | quote }}
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ include "pedido-app.fullname" . }}-db-secret
+              key: DB_PASSWORD
+        resources:
+          {{- toYaml .Values.backend.resources | nindent 10 }}
+        livenessProbe:
+          httpGet:
+            path: /actuator/health
+            port: {{ .Values.backend.port }}
+          initialDelaySeconds: 60
+        readinessProbe:
+          httpGet:
+            path: /actuator/health
+            port: {{ .Values.backend.port }}
+          initialDelaySeconds: 30
