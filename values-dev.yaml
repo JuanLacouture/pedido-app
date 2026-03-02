@@ -1,0 +1,68 @@
+# values-dev.yaml - Entorno desarrollo ligero
+replicaCount: 1
+
+# PostgreSQL dev
+postgresql:
+  enabled: true
+  primary:
+    persistence:
+      enabled: true
+      size: 8Gi
+    resources:
+      requests:
+        cpu: 250m
+        memory: 256Mi
+      limits:
+        cpu: 500m
+        memory: 512Mi
+  auth:
+    postgresPassword: pedido123
+    username: pedidos_user
+    password: userpass123
+    database: pedidos
+
+# Backend dev
+backend:
+  image:
+    repository: sczyh30/spring-petclinic-rest
+    tag: "2.6.0"
+    pullPolicy: IfNotPresent
+  replicas: 2
+  port: 8080
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
+# Frontend dev
+frontend:
+  image:
+    repository: nginx
+    tag: "alpine"
+    pullPolicy: IfNotPresent
+  replicas: 1
+  port: 80
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 128Mi
+
+# Comunes
+service:
+  type: ClusterIP
+ingress:
+  enabled: true
+  className: nginx
+
+# HPA Backend dev
+hpa:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 70
