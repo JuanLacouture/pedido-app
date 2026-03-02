@@ -1,7 +1,5 @@
-# values-dev.yaml - Entorno desarrollo completo Parcial
 replicaCount: 1
 
-# PostgreSQL (tag válido Bitnami)
 postgresql:
   enabled: true
   primary:
@@ -16,22 +14,21 @@ postgresql:
         cpu: 500m
         memory: 512Mi
   image:
-    tag: "15.5.0-debian-12-r2"  # ← FIX válido [web:123]
+    tag: 15.5.0-debian-12-r2
   auth:
     postgresPassword: pedido123
     username: pedidos_user
     password: userpass123
     database: pedidos
 
-# Backend Spring Petclinic REST (API real)
 backend:
   image:
-    repository: sczyh30/spring-petclinic-rest  # ← Spring Boot real
-    tag: "2.6.0"
+    repository: sczyh30/spring-petclinic-rest
+    tag: 2.6.0
     pullPolicy: IfNotPresent
   replicas: 2
   port: 8080
-  dbHost: "{{ .Release.Name }}-postgresql"
+  dbHost: pedido-demo-postgresql
   dbName: pedidos
   dbUser: pedidos_user
   resources:
@@ -42,11 +39,10 @@ backend:
       cpu: 500m
       memory: 512Mi
 
-# Frontend nginx
 frontend:
   image:
     repository: nginx
-    tag: "alpine"
+    tag: alpine
     pullPolicy: IfNotPresent
   replicas: 1
   port: 80
@@ -58,7 +54,13 @@ frontend:
       cpu: 200m
       memory: 128Mi
 
-# HPA Backend
+service:
+  type: ClusterIP
+
+ingress:
+  enabled: true
+  className: nginx
+
 hpa:
   enabled: true
   minReplicas: 2
