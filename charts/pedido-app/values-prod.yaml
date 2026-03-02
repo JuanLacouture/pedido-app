@@ -1,0 +1,23 @@
+﻿replicaCount: 2
+backend:
+  image:
+    repository: nginx
+    tag: 1.25
+  port: 80
+frontend:
+  image:
+    repository: nginx
+    tag: 1.25
+  port: 80
+postgresql:
+  enabled: true
+  auth:
+    postgresPassword: demo123
+    username: pedido
+    database: pedidos
+  primary:
+    persistence:
+      enabled: true
+      size: 8Gi
+hpa:
+  enabled: true

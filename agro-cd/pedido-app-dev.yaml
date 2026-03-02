@@ -14,7 +14,7 @@ spec:
       - values-dev.yaml
   destination:
     server: https://kubernetes.default.svc
-    namespace: demo
+    namespace: demo  # ← CORRECTO tu namespace
   syncPolicy:
     automated:
       prune: true
