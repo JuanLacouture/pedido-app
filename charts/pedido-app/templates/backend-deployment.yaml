@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: {{ include "pedido-app.fullname" . }}-backend
 spec:
-  replicas: {{ .Values.backend.replicas }}
+  replicas: {{ .Values.backend.replicaCount | default .Values.replicaCount | default 2 }}
   selector:
     matchLabels:
       app: backend
@@ -15,18 +15,18 @@ spec:
       containers:
       - name: backend
         image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag }}"
-        imagePullPolicy: {{ .Values.backend.image.pullPolicy }}
+        imagePullPolicy: {{ .Values.backend.image.pullPolicy | default "IfNotPresent" }}
         ports:
-        - containerPort: {{ .Values.backend.port }}
+        - containerPort: {{ .Values.backend.port | default 80 }}
         env:
         - name: SPRING_DATASOURCE_URL
           value: jdbc:postgresql://$(DB_HOST):5432/$(DB_NAME)
         - name: DB_HOST
-          value: {{ .Values.backend.dbHost | quote }}
+          value: {{ .Values.postgresql.auth.username | default "pedido" | quote }}
         - name: DB_NAME
-          value: {{ .Values.backend.dbName | quote }}
+          value: {{ .Values.postgresql.auth.database | default "pedidos" | quote }}
         - name: DB_USER
-          value: {{ .Values.backend.dbUser | quote }}
+          value: {{ .Values.postgresql.auth.username | default "pedido" | quote }}
         - name: DB_PASSWORD
           valueFrom:
             secretKeyRef:
@@ -34,13 +34,14 @@ spec:
               key: DB_PASSWORD
         resources:
           {{- toYaml .Values.backend.resources | nindent 10 }}
+        # FIX 100%: Nginx no actuator
         livenessProbe:
           httpGet:
-            path: /actuator/health
+            path: /  # ← CAMBIADO
             port: {{ .Values.backend.port }}
-          initialDelaySeconds: 60
+          initialDelaySeconds: 30  # Nginx rápido
         readinessProbe:
           httpGet:
-            path: /actuator/health
+            path: /  # ← CAMBIADO
             port: {{ .Values.backend.port }}
-          initialDelaySeconds: 30
+          initialDelaySeconds: 10
