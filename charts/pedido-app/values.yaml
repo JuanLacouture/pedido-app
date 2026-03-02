@@ -24,8 +24,8 @@ postgresql:
 # Backend Spring Boot
 backend:
   image:
-    repository: juanlacouture/pedido-backend
-    tag: latest
+    repository: sczyh30/spring-petclinic-rest
+    tag: "2.6.0"
     pullPolicy: IfNotPresent
   replicas: 2
   port: 8080
@@ -40,8 +40,8 @@ backend:
 # Frontend React
 frontend:
   image:
-    repository: juanlacouture/pedido-frontend
-    tag: latest
+    repository: nginx
+    tag: "alpine"
     pullPolicy: IfNotPresent
   replicas: 1
   port: 80

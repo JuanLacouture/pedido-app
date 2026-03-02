@@ -17,14 +17,16 @@ spec:
         image: "{{ .Values.frontend.image.repository }}:{{ .Values.frontend.image.tag }}"
         imagePullPolicy: {{ .Values.frontend.image.pullPolicy }}
         ports:
-        - containerPort: {{ .Values.frontend.port }}
+        - containerPort: {{ .Values.frontend.port | int }}
         resources:
           {{- toYaml .Values.frontend.resources | nindent 10 }}
         livenessProbe:
           httpGet:
             path: /
-            port: {{ .Values.frontend.port }}
+            port: {{ .Values.frontend.port | int }}
+          initialDelaySeconds: 30
         readinessProbe:
           httpGet:
             path: /
-          port: {{ .Values.frontend.port }}
+            port: {{ .Values.frontend.port | int }}
+          initialDelaySeconds: 10
