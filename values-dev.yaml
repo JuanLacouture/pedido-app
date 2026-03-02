@@ -2,6 +2,9 @@ replicaCount: 1
 
 postgresql:
   enabled: true
+  image:
+    repository: bitnami/postgresql
+    tag: "15.10.0"
   primary:
     persistence:
       enabled: true
@@ -13,23 +16,22 @@ postgresql:
       limits:
         cpu: 500m
         memory: 512Mi
-  image:
-    tag: "15"
   auth:
-    username: pedido
+    postgresPassword: "pedido123"
+    username: "pedido"
     password: "pedido123"
-    database: pedidos
+    database: "pedidos"
 
 backend:
   image:
     repository: sczyh30/spring-petclinic-rest
-    tag: 2.6.0
+    tag: "2.6.0"
     pullPolicy: IfNotPresent
   replicas: 2
   port: 8080
-  dbHost: pedido-demo-postgresql
-  dbName: pedidos
-  dbUser: pedidos_user
+  dbHost: "pedido-app-dev-postgresql"  # ← nombre exacto del service en dev
+  dbName: "pedidos"
+  dbUser: "pedido"
   resources:
     requests:
       cpu: 100m
@@ -41,7 +43,7 @@ backend:
 frontend:
   image:
     repository: nginx
-    tag: alpine
+    tag: "alpine"
     pullPolicy: IfNotPresent
   replicas: 1
   port: 80

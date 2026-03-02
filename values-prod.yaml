@@ -1,71 +1,69 @@
-# values-dev.yaml - Entorno desarrollo ligero
-replicaCount: 1
+replicaCount: 2
 
-# PostgreSQL dev
 postgresql:
   enabled: true
   image:
     repository: bitnami/postgresql
-    tag: "15"                        # ← FIX: tag estable y disponible
+    tag: "15.10.0"
   primary:
     persistence:
       enabled: true
-      size: 8Gi
+      size: 20Gi                  # ← más storage en prod
     resources:
       requests:
-        cpu: 250m
-        memory: 256Mi
-      limits:
         cpu: 500m
         memory: 512Mi
+      limits:
+        cpu: 1000m
+        memory: 1Gi
   auth:
-    postgresPassword: pedido123
-    username: pedido                 # ← FIX: coincide con el pod/configmap
-    password: pedido123
-    database: pedidos
+    postgresPassword: "pedido123"
+    username: "pedido"
+    password: "pedido123"
+    database: "pedidos"
 
-# Backend dev
 backend:
   image:
     repository: sczyh30/spring-petclinic-rest
     tag: "2.6.0"
     pullPolicy: IfNotPresent
-  replicas: 2                        # ← FIX: coincide con HPA minReplicas
+  replicas: 3                     # ← más réplicas en prod
   port: 8080
+  dbHost: "pedido-app-prod-postgresql"  # ← nombre exacto del service en prod
+  dbName: "pedidos"
+  dbUser: "pedido"
+  resources:
+    requests:
+      cpu: 250m
+      memory: 256Mi
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+
+frontend:
+  image:
+    repository: nginx
+    tag: "alpine"
+    pullPolicy: IfNotPresent
+  replicas: 2
+  port: 80
   resources:
     requests:
       cpu: 100m
       memory: 128Mi
     limits:
       cpu: 500m
-      memory: 512Mi
+      memory: 256Mi
 
-# Frontend dev
-frontend:
-  image:
-    repository: nginx
-    tag: "alpine"
-    pullPolicy: IfNotPresent
-  replicas: 1
-  port: 80
-  resources:
-    requests:
-      cpu: 50m
-      memory: 64Mi
-    limits:
-      cpu: 200m
-      memory: 128Mi
-
-# Comunes
 service:
   type: ClusterIP
+
 ingress:
   enabled: true
   className: nginx
 
-# HPA Backend dev
 hpa:
   enabled: true
-  minReplicas: 2
-  maxReplicas: 10
-  targetCPUUtilizationPercentage: 70
+  minReplicas: 3
+  maxReplicas: 20                 # ← mayor escala en prod
+  targetCPUUtilizationPercentage: 60

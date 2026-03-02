@@ -1,9 +1,10 @@
-# Values por defecto para pedido-app
 replicaCount: 1
 
-# PostgreSQL (subchart Bitnami)
 postgresql:
   enabled: true
+  image:
+    repository: bitnami/postgresql
+    tag: "15.10.0"              # ← tag específico estable
   primary:
     persistence:
       enabled: true
@@ -16,12 +17,11 @@ postgresql:
         cpu: 500m
         memory: 512Mi
   auth:
-    postgresPassword: pedido123
-    username: pedidos_user
-    password: userpass123
-    database: pedidos
+    postgresPassword: "pedido123"
+    username: "pedido"
+    password: "pedido123"
+    database: "pedidos"
 
-# Backend Spring Boot
 backend:
   image:
     repository: sczyh30/spring-petclinic-rest
@@ -29,6 +29,9 @@ backend:
     pullPolicy: IfNotPresent
   replicas: 2
   port: 8080
+  dbHost: "pedido-app-postgresql"  # ← se sobreescribe por ambiente
+  dbName: "pedidos"
+  dbUser: "pedido"
   resources:
     requests:
       cpu: 100m
@@ -37,7 +40,6 @@ backend:
       cpu: 500m
       memory: 512Mi
 
-# Frontend React
 frontend:
   image:
     repository: nginx
@@ -53,14 +55,13 @@ frontend:
       cpu: 200m
       memory: 128Mi
 
-# Comunes
 service:
   type: ClusterIP
+
 ingress:
   enabled: true
   className: nginx
 
-# HPA Backend
 hpa:
   enabled: true
   minReplicas: 2
