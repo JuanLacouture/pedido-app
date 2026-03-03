@@ -2,22 +2,12 @@
 
 postgresql:
   enabled: false
-  primary:
-    persistence:
-      enabled: true
-      size: 8Gi
-    resources:
-      requests:
-        cpu: 250m
-        memory: 256Mi
-      limits:
-        cpu: 500m
-        memory: 512Mi
-  auth:
-    postgresPassword: "pedido123"
-    username: "pedido"
-    password: "pedido123"
-    database: "pedidos"
+
+db:
+  username: "pedido"
+  password: "pedido123"
+  database: "pedidos"
+  storage: "8Gi"
 
 backend:
   image:
@@ -26,7 +16,7 @@ backend:
     pullPolicy: IfNotPresent
   replicas: 2
   port: 8080
-  dbHost: "pedido-app-dev-postgresql"  # ← nombre exacto del service en dev
+  dbHost: "pedido-app-dev-postgresql"
   dbName: "pedidos"
   dbUser: "pedido"
   resources:

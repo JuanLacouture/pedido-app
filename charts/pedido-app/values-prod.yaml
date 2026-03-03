@@ -2,31 +2,21 @@
 
 postgresql:
   enabled: false
-  primary:
-    persistence:
-      enabled: true
-      size: 20Gi                  # ← más storage en prod
-    resources:
-      requests:
-        cpu: 500m
-        memory: 512Mi
-      limits:
-        cpu: 1000m
-        memory: 1Gi
-  auth:
-    postgresPassword: "pedido123"
-    username: "pedido"
-    password: "pedido123"
-    database: "pedidos"
+
+db:
+  username: "pedido"
+  password: "pedido123"
+  database: "pedidos"
+  storage: "20Gi"
 
 backend:
   image:
     repository: sczyh30/spring-petclinic-rest
     tag: "2.6.0"
     pullPolicy: IfNotPresent
-  replicas: 3                     # ← más réplicas en prod
+  replicas: 3
   port: 8080
-  dbHost: "pedido-app-prod-postgresql"  # ← nombre exacto del service en prod
+  dbHost: "pedido-app-prod-postgresql"
   dbName: "pedidos"
   dbUser: "pedido"
   resources:
@@ -62,5 +52,5 @@ ingress:
 hpa:
   enabled: true
   minReplicas: 3
-  maxReplicas: 20                 # ← mayor escala en prod
+  maxReplicas: 20
   targetCPUUtilizationPercentage: 60
