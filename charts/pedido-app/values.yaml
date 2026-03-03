@@ -4,7 +4,8 @@ postgresql:
   enabled: true
   image:
     repository: postgres   # ← imagen oficial Docker Hub
-    tag: "15-alpine"             # ← tag específico estable
+    tag: "15-alpine"         
+    registry: ""     # ← tag específico estable
   primary:
     persistence:
       enabled: true

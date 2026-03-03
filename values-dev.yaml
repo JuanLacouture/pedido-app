@@ -5,6 +5,7 @@ postgresql:
   image:
     repository: postgres      # ← esto
     tag: "15-alpine"
+    registry: "" 
   primary:
     persistence:
       enabled: true
