@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: {{ include "pedido-app.fullname" . }}-backend
 spec:
-  replicas: {{ .Values.backend.replicaCount | default .Values.replicaCount | default 2 }}
+  replicas: {{ .Values.backend.replicas | default .Values.replicaCount | default 2 }}
   selector:
     matchLabels:
       app: backend
@@ -22,26 +22,25 @@ spec:
         - name: SPRING_DATASOURCE_URL
           value: jdbc:postgresql://$(DB_HOST):5432/$(DB_NAME)
         - name: DB_HOST
-          value: {{ .Values.postgresql.auth.username | default "pedido" | quote }}
+          value: {{ .Values.backend.dbHost | default (printf "%s-postgresql" (include "pedido-app.fullname" .)) | quote }}
         - name: DB_NAME
-          value: {{ .Values.postgresql.auth.database | default "pedidos" | quote }}
+          value: {{ .Values.db.database | default "pedidos" | quote }}
         - name: DB_USER
-          value: {{ .Values.postgresql.auth.username | default "pedido" | quote }}
+          value: {{ .Values.db.username | default "pedido" | quote }}
         - name: DB_PASSWORD
           valueFrom:
             secretKeyRef:
               name: {{ include "pedido-app.fullname" . }}-db-secret
-              key: DB_PASSWORD
+              key: db-password
         resources:
           {{- toYaml .Values.backend.resources | nindent 10 }}
-        # FIX 100%: Nginx no actuator
         livenessProbe:
           httpGet:
-            path: /  # ← CAMBIADO
+            path: /
             port: {{ .Values.backend.port }}
-          initialDelaySeconds: 30  # Nginx rápido
+          initialDelaySeconds: 30
         readinessProbe:
           httpGet:
-            path: /  # ← CAMBIADO
+            path: /
             port: {{ .Values.backend.port }}
           initialDelaySeconds: 10
