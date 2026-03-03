@@ -11,8 +11,8 @@ db:
 
 backend:
   image:
-    repository: sczyh30/spring-petclinic-rest
-    tag: "2.6.0"
+    repository: nginx
+    tag: "alpine" 
     pullPolicy: IfNotPresent
   replicas: 3
   port: 8080
