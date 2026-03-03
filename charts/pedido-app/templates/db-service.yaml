@@ -1,0 +1,13 @@
+{{- if not .Values.postgresql.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "pedido-app.fullname" . }}-postgresql
+spec:
+  selector:
+    app: {{ include "pedido-app.fullname" . }}-postgresql
+  ports:
+    - port: 5432
+      targetPort: 5432
+  type: ClusterIP
+{{- end }}

@@ -1,0 +1,38 @@
+{{- if not .Values.postgresql.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "pedido-app.fullname" . }}-postgresql
+  labels:
+    app: {{ include "pedido-app.fullname" . }}-postgresql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ include "pedido-app.fullname" . }}-postgresql
+  template:
+    metadata:
+      labels:
+        app: {{ include "pedido-app.fullname" . }}-postgresql
+    spec:
+      containers:
+        - name: postgresql
+          image: postgres:15-alpine
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              value: {{ .Values.db.username }}
+            - name: POSTGRES_PASSWORD
+              value: {{ .Values.db.password }}
+            - name: POSTGRES_DB
+              value: {{ .Values.db.database }}
+          volumeMounts:
+            - name: postgres-data
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: postgres-data
+          persistentVolumeClaim:
+            claimName: {{ include "pedido-app.fullname" . }}-postgresql-pvc
+{{- end }}

@@ -1,11 +1,7 @@
 replicaCount: 1
 
 postgresql:
-  enabled: true
-  image:
-    repository: postgres   # ← imagen oficial Docker Hub
-    tag: "15-alpine"         
-    registry: ""     # ← tag específico estable
+  enabled: false
   primary:
     persistence:
       enabled: true
