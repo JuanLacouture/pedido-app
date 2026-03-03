@@ -3,8 +3,8 @@ replicaCount: 1
 postgresql:
   enabled: true
   image:
-    repository: bitnami/postgresql
-    tag: "15.10.0"              # ← tag específico estable
+    repository: postgres   # ← imagen oficial Docker Hub
+    tag: "15-alpine"             # ← tag específico estable
   primary:
     persistence:
       enabled: true
