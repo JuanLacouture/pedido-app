@@ -3,6 +3,7 @@ kind: ConfigMap
 metadata:
   name: {{ include "pedido-app.fullname" . }}-backend-config
 data:
-  DB_HOST: {{ .Release.Name }}-postgresql-postgresql
+  DB_HOST: {{ include "pedido-app.fullname" . }}-postgresql
+  DB_NAME: {{ .Values.db.database }}
+  DB_USER: {{ .Values.db.username }}
   DB_PORT: "5432"
-  DB_NAME: {{ .Values.postgresql.auth.database | quote }}
