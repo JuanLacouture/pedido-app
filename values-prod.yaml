@@ -3,8 +3,8 @@ replicaCount: 2
 postgresql:
   enabled: true
   image:
-    repository: bitnami/postgresql
-    tag: "15.10.0"
+    repository: postgres      # ← esto
+    tag: "15-alpine"
   primary:
     persistence:
       enabled: true
