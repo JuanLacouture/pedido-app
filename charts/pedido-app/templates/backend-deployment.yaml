@@ -38,19 +38,23 @@ spec:
           value: "always"
         - name: SPRING_JPA_SHOW_SQL
           value: "true"
+        - name: SPRING_AUTOCONFIGURE_EXCLUDE
+          value: "org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration"
         resources:
           {{- toYaml .Values.backend.resources | nindent 10 }}
-        #livenessProbe:
+        livenessProbe:
           httpGet:
-            path: /petclinic/actuator/health
+            path: /petclinic/api/vets
             port: {{ .Values.backend.port | default 9966 }}
           initialDelaySeconds: 180
           periodSeconds: 30
           failureThreshold: 10
-        #readinessProbe:
+          timeoutSeconds: 5
+        readinessProbe:
           httpGet:
             path: /petclinic/api/vets
             port: {{ .Values.backend.port | default 9966 }}
           initialDelaySeconds: 150
           periodSeconds: 15
           failureThreshold: 10
+          timeoutSeconds: 5
