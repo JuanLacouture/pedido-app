@@ -5,7 +5,7 @@ metadata:
   labels:
     {{- include "pedido-app.labels" . | nindent 4 }}
 spec:
-  replicas: {{ .Values.frontend.replicas }}
+  replicas: {{ .Values.frontend.replicas | default 1 }}
   selector:
     matchLabels:
       app: frontend
@@ -17,25 +17,19 @@ spec:
       containers:
       - name: frontend
         image: "{{ .Values.frontend.image.repository }}:{{ .Values.frontend.image.tag }}"
-        imagePullPolicy: {{ .Values.frontend.image.pullPolicy }}
+        imagePullPolicy: {{ .Values.frontend.image.pullPolicy | default "IfNotPresent" }}
         ports:
-        - containerPort: {{ .Values.frontend.port | int }}
+        - containerPort: {{ .Values.frontend.port | default 80 }}
         resources:
           {{- toYaml .Values.frontend.resources | nindent 10 }}
-        livenessProbe:
-          httpGet:
-            path: /
-            port: {{ .Values.frontend.port | int }}
-          initialDelaySeconds: 30
-        readinessProbe:
-          httpGet:
-            path: /
-            port: {{ .Values.frontend.port | int }}
-          initialDelaySeconds: 10
         volumeMounts:
-        - name: index-html
-          mountPath: /usr/share/nginx/html
+        - name: frontend-config
+          mountPath: /usr/share/nginx/html/index.html
+          subPath: index.html
+        - name: frontend-config
+          mountPath: /etc/nginx/conf.d/default.conf
+          subPath: nginx.conf
       volumes:
-      - name: index-html
+      - name: frontend-config
         configMap:
           name: {{ include "pedido-app.fullname" . }}-frontend-config

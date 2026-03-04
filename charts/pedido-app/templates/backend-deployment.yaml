@@ -38,6 +38,10 @@ spec:
           value: "always"
         - name: SPRING_JPA_SHOW_SQL
           value: "true"
+        - name: SPRING_SECURITY_USER_NAME
+          value: "admin"
+        - name: SPRING_SECURITY_USER_PASSWORD
+          value: "admin"
         resources:
           {{- toYaml .Values.backend.resources | nindent 10 }}
         livenessProbe:
