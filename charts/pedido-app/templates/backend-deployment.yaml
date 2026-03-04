@@ -46,11 +46,18 @@ spec:
           httpGet:
             path: /petclinic/api/vets
             port: {{ .Values.backend.port | default 9966 }}
-          initialDelaySeconds: 180
+          initialDelaySeconds: 400
           periodSeconds: 30
           failureThreshold: 10
           timeoutSeconds: 5
         readinessProbe:
+          httpGet:
+            path: /petclinic/api/vets
+            port: {{ .Values.backend.port | default 9966 }}
+          initialDelaySeconds: 360
+          periodSeconds: 15
+          failureThreshold: 10
+          timeoutSeconds: 5
           httpGet:
             path: /petclinic/api/vets
             port: {{ .Values.backend.port | default 9966 }}
