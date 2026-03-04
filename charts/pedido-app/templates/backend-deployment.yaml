@@ -38,8 +38,6 @@ spec:
           value: "always"
         - name: SPRING_JPA_SHOW_SQL
           value: "true"
-        - name: SPRING_AUTOCONFIGURE_EXCLUDE
-          value: "org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration"
         resources:
           {{- toYaml .Values.backend.resources | nindent 10 }}
           livenessProbe:
