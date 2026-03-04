@@ -42,7 +42,7 @@ spec:
           value: "org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration"
         resources:
           {{- toYaml .Values.backend.resources | nindent 10 }}
-        #livenessProbe:
+        livenessProbe:
           httpGet:
             path: /petclinic/api/vets
             port: {{ .Values.backend.port | default 9966 }}
@@ -50,7 +50,7 @@ spec:
           periodSeconds: 30
           failureThreshold: 10
           timeoutSeconds: 5
-        #readinessProbe:
+        readinessProbe:
           httpGet:
             path: /petclinic/api/vets
             port: {{ .Values.backend.port | default 9966 }}
