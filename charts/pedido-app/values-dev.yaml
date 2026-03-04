@@ -15,7 +15,7 @@ backend:
     tag: "3.0.2"
     pullPolicy: Always
   replicas: 2
-  port: 8080
+  port: 9966
   dbHost: "pedido-app-dev-postgresql"
   dbName: "pedidos"
   dbUser: "pedido"

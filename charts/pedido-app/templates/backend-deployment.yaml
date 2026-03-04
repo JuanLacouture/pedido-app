@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "pedido-app.fullname" . }}-backend
+  labels:
+    {{- include "pedido-app.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.backend.replicas | default .Values.replicaCount | default 2 }}
   selector:
@@ -17,30 +19,30 @@ spec:
         image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag }}"
         imagePullPolicy: {{ .Values.backend.image.pullPolicy | default "IfNotPresent" }}
         ports:
-        - containerPort: {{ .Values.backend.port | default 80 }}
+        - containerPort: {{ .Values.backend.port | default 9966 }}
         env:
         - name: SPRING_DATASOURCE_URL
-          value: jdbc:postgresql://$(DB_HOST):5432/$(DB_NAME)
-        - name: DB_HOST
-          value: {{ .Values.backend.dbHost | default (printf "%s-postgresql" (include "pedido-app.fullname" .)) | quote }}
-        - name: DB_NAME
-          value: {{ .Values.db.database | default "pedidos" | quote }}
-        - name: DB_USER
+          value: "jdbc:postgresql://{{ include "pedido-app.fullname" . }}-postgresql:5432/{{ .Values.db.database | default "pedidos" }}"
+        - name: SPRING_DATASOURCE_USERNAME
           value: {{ .Values.db.username | default "pedido" | quote }}
-        - name: DB_PASSWORD
+        - name: SPRING_DATASOURCE_PASSWORD
           valueFrom:
             secretKeyRef:
               name: {{ include "pedido-app.fullname" . }}-db-secret
               key: db-password
+        - name: SPRING_PROFILES_ACTIVE
+          value: "postgresql,spring-data-jpa"
         resources:
           {{- toYaml .Values.backend.resources | nindent 10 }}
         livenessProbe:
           httpGet:
-            path: /
-            port: {{ .Values.backend.port }}
-          initialDelaySeconds: 30
+            path: /petclinic/api/vets
+            port: {{ .Values.backend.port | default 9966 }}
+          initialDelaySeconds: 60
+          periodSeconds: 15
         readinessProbe:
           httpGet:
-            path: /
-            port: {{ .Values.backend.port }}
-          initialDelaySeconds: 10
+            path: /petclinic/api/vets
+            port: {{ .Values.backend.port | default 9966 }}
+          initialDelaySeconds: 45
+          periodSeconds: 10
