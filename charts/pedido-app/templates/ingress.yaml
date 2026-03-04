@@ -3,26 +3,25 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ include "pedido-app.fullname" . }}
+  labels:
+    {{- include "pedido-app.labels" . | nindent 4 }}
   annotations:
     kubernetes.io/ingress.class: {{ .Values.ingress.className | quote }}
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
   rules:
   - host: pedido.local
     http:
       paths:
-      - path: /api
-        pathType: Prefix
+      - path: /petclinic(/|$)(.*)
+        pathType: ImplementationSpecific
         backend:
           service:
             name: {{ include "pedido-app.fullname" . }}-backend
             port:
-              number: 8080
-  - host: pedido.local
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
+              number: {{ default 9966 .Values.backend.port }}
+      - path: /()(.*)
+        pathType: ImplementationSpecific
         backend:
           service:
             name: {{ include "pedido-app.fullname" . }}-frontend
