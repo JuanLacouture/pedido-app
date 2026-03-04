@@ -33,7 +33,7 @@ data:
 
       <script>
         function cargarPedidos() {
-          fetch('/api/pedidos')
+          fetch('/petclinic/api/owners')   // ← cambia esta línea
             .then(r => {
               if (!r.ok) throw new Error('HTTP ' + r.status);
               return r.json();
@@ -41,11 +41,11 @@ data:
             .then(data => {
               const status = document.getElementById('status');
               status.className = 'ok';
-              status.innerHTML = '✅ Backend conectado — ' + data.length + ' pedido(s) encontrado(s)';
+              status.innerHTML = '✅ Backend conectado — ' + data.length + ' registro(s) encontrado(s)';
               const tbody = document.getElementById('tbody');
               tbody.innerHTML = '';
               data.forEach(p => {
-                tbody.innerHTML += `<tr><td>${p.id}</td><td>${p.cliente || p.customerName || '-'}</td><td>${p.total || '-'}</td><td>${p.estado || p.status || '-'}</td></tr>`;
+                tbody.innerHTML += `<tr><td>${p.id}</td><td>${p.firstName} ${p.lastName}</td><td>-</td><td>-</td></tr>`;
               });
               document.getElementById('tabla').style.display = 'table';
             })
@@ -55,8 +55,6 @@ data:
               status.innerHTML = '❌ Error al conectar con el backend: ' + err.message;
             });
         }
-
-        // Carga automática al abrir
         cargarPedidos();
       </script>
     </body>
