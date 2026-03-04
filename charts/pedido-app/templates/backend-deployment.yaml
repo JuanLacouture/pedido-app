@@ -40,14 +40,14 @@ spec:
           value: "true"
         resources:
           {{- toYaml .Values.backend.resources | nindent 10 }}
-        livenessProbe:
+        #livenessProbe:
           httpGet:
-            path: /petclinic/api/vets
+            path: /petclinic/actuator/health
             port: {{ .Values.backend.port | default 9966 }}
           initialDelaySeconds: 180
           periodSeconds: 30
           failureThreshold: 10
-        readinessProbe:
+        #readinessProbe:
           httpGet:
             path: /petclinic/api/vets
             port: {{ .Values.backend.port | default 9966 }}
