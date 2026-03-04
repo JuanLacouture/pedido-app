@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "pedido-app.fullname" . }}-frontend
+  labels:
+    {{- include "pedido-app.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.frontend.replicas }}
   selector:
@@ -30,3 +32,14 @@ spec:
             path: /
             port: {{ .Values.frontend.port | int }}
           initialDelaySeconds: 10
+        volumeMounts:
+        - name: index-html
+          mountPath: /usr/share/nginx/html/index.html
+          subPath: index.html
+      volumes:
+      - name: index-html
+        configMap:
+          name: {{ include "pedido-app.fullname" . }}-frontend-config
+          items:
+          - key: index.html
+            path: index.html
