@@ -15,8 +15,8 @@ backend:
     tag: "3.0.2"
     pullPolicy: Always
   replicas: 2
-  port: 8080
-  dbHost: "pedido-app-postgresql"
+  port: 9966          # ← CORREGIDO: era 8080, la app corre en 9966
+  dbHost: "pedido-app-dev-postgresql"   # ← CORREGIDO: nombre completo del service
   dbName: "pedidos"
   dbUser: "pedido"
   resources:
@@ -26,7 +26,22 @@ backend:
     limits:
       cpu: 500m
       memory: 512Mi
-
+  readinessProbe:
+    httpGet:
+      path: /petclinic/api/vets
+      port: 9966
+    initialDelaySeconds: 180    # ← Spring tarda ~90s solo en contexto
+    periodSeconds: 15
+    failureThreshold: 5
+    timeoutSeconds: 3
+  livenessProbe:
+    httpGet:
+      path: /petclinic/api/vets
+      port: 9966
+    initialDelaySeconds: 210
+    periodSeconds: 20
+    failureThreshold: 5
+    timeoutSeconds: 3
 
 frontend:
   image:
