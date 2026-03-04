@@ -23,36 +23,35 @@ data:
       </style>
     </head>
     <body>
-      <h1>🛒 Sistema de Gestión de Pedidos</h1>
+      <h1>Sistema de Gestion de Pedidos</h1>
       <button onclick="cargarPedidos()">Cargar Pedidos</button>
       <div id="status"></div>
       <table id="tabla" style="display:none">
-        <thead><tr><th>ID</th><th>Cliente</th><th>Total</th><th>Estado</th></tr></thead>
+        <thead><tr><th>ID</th><th>Nombre</th><th>Apellido</th><th>Ciudad</th></tr></thead>
         <tbody id="tbody"></tbody>
       </table>
-
       <script>
         function cargarPedidos() {
-          fetch('/petclinic/api/owners')   // ← cambia esta línea
+          fetch('/petclinic/api/owners')
             .then(r => {
               if (!r.ok) throw new Error('HTTP ' + r.status);
               return r.json();
             })
             .then(data => {
-              const status = document.getElementById('status');
+              var status = document.getElementById('status');
               status.className = 'ok';
-              status.innerHTML = '✅ Backend conectado — ' + data.length + ' registro(s) encontrado(s)';
-              const tbody = document.getElementById('tbody');
+              status.innerHTML = 'Backend conectado: ' + data.length + ' registro(s) encontrado(s)';
+              var tbody = document.getElementById('tbody');
               tbody.innerHTML = '';
-              data.forEach(p => {
-                tbody.innerHTML += `<tr><td>${p.id}</td><td>${p.firstName} ${p.lastName}</td><td>-</td><td>-</td></tr>`;
+              data.forEach(function(p) {
+                tbody.innerHTML += '<tr><td>' + p.id + '</td><td>' + p.firstName + '</td><td>' + p.lastName + '</td><td>' + p.city + '</td></tr>';
               });
               document.getElementById('tabla').style.display = 'table';
             })
-            .catch(err => {
-              const status = document.getElementById('status');
+            .catch(function(err) {
+              var status = document.getElementById('status');
               status.className = 'error';
-              status.innerHTML = '❌ Error al conectar con el backend: ' + err.message;
+              status.innerHTML = 'Error al conectar con el backend: ' + err.message;
             });
         }
         cargarPedidos();
