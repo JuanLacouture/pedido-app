@@ -1,4 +1,4 @@
-apiVersion: v1
+﻿apiVersion: v1
 kind: ConfigMap
 metadata:
   name: {{ include "pedido-app.fullname" . }}-frontend-config
@@ -11,16 +11,6 @@ data:
     <head>
       <meta charset="UTF-8">
       <title>Pedido App</title>
-      <style>
-        body { font-family: Arial, sans-serif; max-width: 800px; margin: 40px auto; padding: 20px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #4CAF50; color: white; }
-        button { background: #4CAF50; color: white; padding: 10px 20px; border: none; cursor: pointer; border-radius: 4px; }
-        #status { margin-top: 10px; padding: 10px; border-radius: 4px; }
-        .ok { background: #d4edda; color: #155724; }
-        .error { background: #f8d7da; color: #721c24; }
-      </style>
     </head>
     <body>
       <h1>Sistema de Gestion de Pedidos</h1>
@@ -33,26 +23,17 @@ data:
       <script>
         function cargarPedidos() {
           fetch('/petclinic/api/owners')
-            .then(r => {
-              if (!r.ok) throw new Error('HTTP ' + r.status);
-              return r.json();
-            })
-            .then(data => {
-              var status = document.getElementById('status');
-              status.className = 'ok';
-              status.innerHTML = 'Backend conectado: ' + data.length + ' registro(s) encontrado(s)';
-              var tbody = document.getElementById('tbody');
-              tbody.innerHTML = '';
+            .then(function(r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+            .then(function(data) {
+              document.getElementById('status').innerHTML = 'Conectado: ' + data.length + ' registros';
+              var html = '';
               data.forEach(function(p) {
-                tbody.innerHTML += '<tr><td>' + p.id + '</td><td>' + p.firstName + '</td><td>' + p.lastName + '</td><td>' + p.city + '</td></tr>';
+                html += '<tr><td>'+p.id+'</td><td>'+p.firstName+'</td><td>'+p.lastName+'</td><td>'+p.city+'</td></tr>';
               });
+              document.getElementById('tbody').innerHTML = html;
               document.getElementById('tabla').style.display = 'table';
             })
-            .catch(function(err) {
-              var status = document.getElementById('status');
-              status.className = 'error';
-              status.innerHTML = 'Error al conectar con el backend: ' + err.message;
-            });
+            .catch(function(err) { document.getElementById('status').innerHTML = 'Error: ' + err.message; });
         }
         cargarPedidos();
       </script>
