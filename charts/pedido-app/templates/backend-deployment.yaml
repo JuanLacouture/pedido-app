@@ -32,17 +32,25 @@ spec:
               key: db-password
         - name: SPRING_PROFILES_ACTIVE
           value: "postgresql,spring-data-jpa"
+        - name: SPRING_JPA_HIBERNATE_DDL_AUTO
+          value: "create"
+        - name: SPRING_SQL_INIT_MODE
+          value: "always"
+        - name: SPRING_JPA_SHOW_SQL
+          value: "true"
         resources:
           {{- toYaml .Values.backend.resources | nindent 10 }}
         livenessProbe:
           httpGet:
             path: /petclinic/api/vets
             port: {{ .Values.backend.port | default 9966 }}
-          initialDelaySeconds: 60
+          initialDelaySeconds: 90
           periodSeconds: 15
+          failureThreshold: 5
         readinessProbe:
           httpGet:
             path: /petclinic/api/vets
             port: {{ .Values.backend.port | default 9966 }}
-          initialDelaySeconds: 45
+          initialDelaySeconds: 60
           periodSeconds: 10
+          failureThreshold: 5
