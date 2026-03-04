@@ -42,7 +42,7 @@ spec:
           {{- toYaml .Values.backend.resources | nindent 10 }}
           livenessProbe:
           httpGet:
-            path: /petclinic/api/vets
+            path: /petclinic/actuator/health
             port: {{ .Values.backend.port | default 9966 }}
           initialDelaySeconds: 420
           periodSeconds: 30
@@ -50,7 +50,7 @@ spec:
           timeoutSeconds: 5
         readinessProbe:
           httpGet:
-            path: /petclinic/api/vets
+            path: /petclinic/actuator/health
             port: {{ .Values.backend.port | default 9966 }}
           initialDelaySeconds: 360
           periodSeconds: 15
