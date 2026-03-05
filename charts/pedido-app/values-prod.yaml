@@ -14,7 +14,7 @@ backend:
     repository: springcommunity/spring-petclinic-rest
     tag: "3.0.2"
     pullPolicy: Always
-  replicas: 3
+  replicas: 4
   port: 8080
   dbHost: "pedido-app-prod-postgresql"
   dbName: "pedidos"
