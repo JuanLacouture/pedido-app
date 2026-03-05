@@ -9,7 +9,7 @@ metadata:
     kubernetes.io/ingress.class: {{ .Values.ingress.className | quote }}
 spec:
   rules:
-  - host: pedido.local
+  - host: {{ .Values.ingress.host | default "pedido.local" }}
     http:
       paths:
       - path: /petclinic
