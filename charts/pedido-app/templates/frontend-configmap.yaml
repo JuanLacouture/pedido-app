@@ -15,7 +15,6 @@ data:
       <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
       <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
         :root {
           --cream: #F5F0E8;
           --dark: #1A1A2E;
@@ -26,352 +25,80 @@ data:
           --card: #FFFFFF;
           --border: #E2DDD5;
         }
-
-        body {
-          font-family: 'DM Sans', sans-serif;
-          background: var(--cream);
-          color: var(--text);
-          min-height: 100vh;
-        }
-
-        .noise {
-          position: fixed;
-          inset: 0;
-          background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-          pointer-events: none;
-          z-index: 0;
-        }
-
-        header {
-          background: var(--dark);
-          color: var(--cream);
-          padding: 2rem 3rem;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          position: relative;
-          z-index: 1;
-        }
-
-        .header-left h1 {
-          font-family: 'Playfair Display', serif;
-          font-size: 2rem;
-          letter-spacing: -0.02em;
-          line-height: 1.1;
-        }
-
-        .header-left h1 span {
-          color: var(--accent);
-        }
-
-        .header-left p {
-          color: rgba(245,240,232,0.5);
-          font-size: 0.85rem;
-          font-weight: 300;
-          margin-top: 0.25rem;
-          letter-spacing: 0.1em;
-          text-transform: uppercase;
-        }
-
-        .paw-icon {
-          font-size: 3rem;
-          opacity: 0.15;
-        }
-
-        main {
-          max-width: 1200px;
-          margin: 0 auto;
-          padding: 3rem 2rem;
-          position: relative;
-          z-index: 1;
-        }
-
-        .section-header {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          margin-bottom: 1.5rem;
-        }
-
-        .section-title {
-          font-family: 'Playfair Display', serif;
-          font-size: 1.5rem;
-          color: var(--dark);
-        }
-
-        .btn {
-          display: inline-flex;
-          align-items: center;
-          gap: 0.5rem;
-          padding: 0.6rem 1.4rem;
-          border-radius: 6px;
-          font-family: 'DM Sans', sans-serif;
-          font-size: 0.9rem;
-          font-weight: 500;
-          cursor: pointer;
-          transition: all 0.2s ease;
-          border: none;
-        }
-
-        .btn-primary {
-          background: var(--accent);
-          color: white;
-        }
-
-        .btn-primary:hover {
-          background: #b5762e;
-          transform: translateY(-1px);
-          box-shadow: 0 4px 12px rgba(200,135,58,0.3);
-        }
-
-        .btn-secondary {
-          background: transparent;
-          color: var(--accent2);
-          border: 1.5px solid var(--accent2);
-        }
-
-        .btn-secondary:hover {
-          background: var(--accent2);
-          color: white;
-        }
-
-        .btn-danger {
-          background: transparent;
-          color: #e05c5c;
-          border: 1.5px solid #e05c5c;
-          padding: 0.35rem 0.8rem;
-          font-size: 0.8rem;
-        }
-
-        .btn-danger:hover {
-          background: #e05c5c;
-          color: white;
-        }
-
-        /* Status */
-        .status-bar {
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-          font-size: 0.85rem;
-          color: var(--muted);
-          margin-bottom: 1.5rem;
-        }
-
-        .status-dot {
-          width: 8px;
-          height: 8px;
-          border-radius: 50%;
-          background: #ccc;
-        }
-
+        body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text); min-height: 100vh; }
+        header { background: var(--dark); color: var(--cream); padding: 2rem 3rem; display: flex; align-items: center; justify-content: space-between; }
+        .header-left h1 { font-family: 'Playfair Display', serif; font-size: 2rem; letter-spacing: -0.02em; }
+        .header-left h1 span { color: var(--accent); }
+        .header-left p { color: rgba(245,240,232,0.5); font-size: 0.85rem; font-weight: 300; margin-top: 0.25rem; letter-spacing: 0.1em; text-transform: uppercase; }
+        .paw-icon { font-size: 3rem; opacity: 0.15; }
+        main { max-width: 1200px; margin: 0 auto; padding: 3rem 2rem; }
+        .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; }
+        .section-title { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--dark); }
+        .btn-group { display: flex; gap: 0.75rem; }
+        .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.6rem 1.4rem; border-radius: 6px; font-family: 'DM Sans', sans-serif; font-size: 0.9rem; font-weight: 500; cursor: pointer; transition: all 0.2s ease; border: none; }
+        .btn-primary { background: var(--accent); color: white; }
+        .btn-primary:hover { background: #b5762e; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(200,135,58,0.3); }
+        .btn-secondary { background: transparent; color: var(--accent2); border: 1.5px solid var(--accent2); }
+        .btn-secondary:hover { background: var(--accent2); color: white; }
+        .btn-danger { background: transparent; color: #e05c5c; border: 1.5px solid #e05c5c; padding: 0.35rem 0.8rem; font-size: 0.8rem; }
+        .btn-danger:hover { background: #e05c5c; color: white; }
+        .status-bar { display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: var(--muted); margin-bottom: 1.5rem; }
+        .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #ccc; }
         .status-dot.online { background: #4CAF50; box-shadow: 0 0 6px rgba(76,175,80,0.5); }
         .status-dot.error { background: #e05c5c; }
-
-        /* Table */
-        .table-wrapper {
-          background: var(--card);
-          border-radius: 12px;
-          border: 1px solid var(--border);
-          overflow: hidden;
-          box-shadow: 0 2px 20px rgba(0,0,0,0.06);
-        }
-
-        table {
-          width: 100%;
-          border-collapse: collapse;
-        }
-
-        thead {
-          background: var(--dark);
-          color: var(--cream);
-        }
-
-        thead th {
-          padding: 1rem 1.2rem;
-          text-align: left;
-          font-size: 0.75rem;
-          font-weight: 500;
-          letter-spacing: 0.12em;
-          text-transform: uppercase;
-        }
-
-        tbody tr {
-          border-bottom: 1px solid var(--border);
-          transition: background 0.15s ease;
-        }
-
+        .table-wrapper { background: var(--card); border-radius: 12px; border: 1px solid var(--border); overflow: hidden; box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
+        table { width: 100%; border-collapse: collapse; }
+        thead { background: var(--dark); color: var(--cream); }
+        thead th { padding: 1rem 1.2rem; text-align: left; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; }
+        tbody tr { border-bottom: 1px solid var(--border); transition: background 0.15s ease; }
         tbody tr:last-child { border-bottom: none; }
         tbody tr:hover { background: #FAF7F2; }
-
-        tbody td {
-          padding: 1rem 1.2rem;
-          font-size: 0.9rem;
-          color: var(--text);
-        }
-
-        .id-badge {
-          display: inline-block;
-          background: var(--cream);
-          border: 1px solid var(--border);
-          border-radius: 4px;
-          padding: 0.15rem 0.5rem;
-          font-size: 0.75rem;
-          font-weight: 500;
-          color: var(--muted);
-          font-family: monospace;
-        }
-
-        .name-cell {
-          font-weight: 500;
-        }
-
-        .city-chip {
-          display: inline-flex;
-          align-items: center;
-          gap: 0.3rem;
-          background: rgba(123,111,160,0.1);
-          color: var(--accent2);
-          border-radius: 20px;
-          padding: 0.2rem 0.7rem;
-          font-size: 0.8rem;
-        }
-
-        .empty-state {
-          text-align: center;
-          padding: 4rem 2rem;
-          color: var(--muted);
-        }
-
+        tbody td { padding: 1rem 1.2rem; font-size: 0.9rem; }
+        .id-badge { display: inline-block; background: var(--cream); border: 1px solid var(--border); border-radius: 4px; padding: 0.15rem 0.5rem; font-size: 0.75rem; font-weight: 500; color: var(--muted); font-family: monospace; }
+        .name-cell { font-weight: 500; }
+        .city-chip { display: inline-flex; align-items: center; gap: 0.3rem; background: rgba(123,111,160,0.1); color: var(--accent2); border-radius: 20px; padding: 0.2rem 0.7rem; font-size: 0.8rem; }
+        .empty-state { text-align: center; padding: 4rem 2rem; color: var(--muted); }
         .empty-state .empty-icon { font-size: 3rem; margin-bottom: 1rem; }
-        .empty-state p { font-size: 0.95rem; }
-
-        /* Modal */
-        .modal-overlay {
-          display: none;
-          position: fixed;
-          inset: 0;
-          background: rgba(26,26,46,0.6);
-          backdrop-filter: blur(4px);
-          z-index: 100;
-          align-items: center;
-          justify-content: center;
-        }
-
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(26,26,46,0.6); backdrop-filter: blur(4px); z-index: 100; align-items: center; justify-content: center; }
         .modal-overlay.open { display: flex; }
-
-        .modal {
-          background: var(--card);
-          border-radius: 16px;
-          padding: 2rem;
-          width: 100%;
-          max-width: 480px;
-          box-shadow: 0 20px 60px rgba(0,0,0,0.2);
-          animation: slideUp 0.3s ease;
-        }
-
-        @keyframes slideUp {
-          from { transform: translateY(20px); opacity: 0; }
-          to { transform: translateY(0); opacity: 1; }
-        }
-
-        .modal-title {
-          font-family: 'Playfair Display', serif;
-          font-size: 1.4rem;
-          color: var(--dark);
-          margin-bottom: 1.5rem;
-        }
-
-        .form-grid {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 1rem;
-          margin-bottom: 1.5rem;
-        }
-
-        .form-group {
-          display: flex;
-          flex-direction: column;
-          gap: 0.4rem;
-        }
-
+        .modal { background: var(--card); border-radius: 16px; padding: 2rem; width: 100%; max-width: 480px; box-shadow: 0 20px 60px rgba(0,0,0,0.2); animation: slideUp 0.3s ease; }
+        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .modal-title { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--dark); margin-bottom: 1.5rem; }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem; }
+        .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
         .form-group.full { grid-column: 1 / -1; }
-
-        label {
-          font-size: 0.78rem;
-          font-weight: 500;
-          color: var(--muted);
-          letter-spacing: 0.08em;
-          text-transform: uppercase;
-        }
-
-        input {
-          padding: 0.65rem 0.9rem;
-          border: 1.5px solid var(--border);
-          border-radius: 8px;
-          font-family: 'DM Sans', sans-serif;
-          font-size: 0.9rem;
-          color: var(--text);
-          background: var(--cream);
-          transition: border-color 0.2s;
-          outline: none;
-        }
-
+        label { font-size: 0.78rem; font-weight: 500; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+        input { padding: 0.65rem 0.9rem; border: 1.5px solid var(--border); border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 0.9rem; color: var(--text); background: var(--cream); transition: border-color 0.2s; outline: none; }
         input:focus { border-color: var(--accent); background: white; }
-
-        .modal-actions {
-          display: flex;
-          gap: 0.75rem;
-          justify-content: flex-end;
-        }
-
-        .toast {
-          position: fixed;
-          bottom: 2rem;
-          right: 2rem;
-          background: var(--dark);
-          color: var(--cream);
-          padding: 0.8rem 1.4rem;
-          border-radius: 8px;
-          font-size: 0.88rem;
-          z-index: 200;
-          transform: translateY(100px);
-          opacity: 0;
-          transition: all 0.3s ease;
-        }
-
+        .modal-actions { display: flex; gap: 0.75rem; justify-content: flex-end; }
+        .toast { position: fixed; bottom: 2rem; right: 2rem; background: var(--dark); color: var(--cream); padding: 0.8rem 1.4rem; border-radius: 8px; font-size: 0.88rem; z-index: 200; transform: translateY(100px); opacity: 0; transition: all 0.3s ease; }
         .toast.show { transform: translateY(0); opacity: 1; }
         .toast.success { border-left: 3px solid #4CAF50; }
         .toast.error { border-left: 3px solid #e05c5c; }
-
-        @keyframes spin {
-          to { transform: rotate(360deg); }
-        }
+        @keyframes spin { to { transform: rotate(360deg); } }
         .loading { display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.7s linear infinite; }
       </style>
     </head>
     <body>
-      <div class="noise"></div>
-
       <header>
         <div class="header-left">
           <h1>Pet Owners <span>Registry</span></h1>
-          <p>Sistema de Gestión de Dueños de Mascotas</p>
+          <p>Sistema de Gestion de Duenos de Mascotas</p>
         </div>
-        <div class="paw-icon">🐾</div>
+        <div class="paw-icon">&#x1F43E;</div>
       </header>
-
       <main>
         <div class="section-header">
-          <h2 class="section-title">Dueños Registrados</h2>
-          <button class="btn btn-primary" onclick="abrirModal()">+ Agregar Dueño</button>
+          <h2 class="section-title">Duenos Registrados</h2>
+          <div class="btn-group">
+            <button class="btn btn-secondary" onclick="cargarDuenos()">&#x21BB; Recargar</button>
+            <button class="btn btn-primary" onclick="abrirModal()">+ Agregar Dueno</button>
+          </div>
         </div>
-
         <div class="status-bar">
           <div class="status-dot" id="statusDot"></div>
-          <span id="statusText">Cargando datos...</span>
+          <span id="statusText">Haz clic en Recargar para cargar los datos</span>
         </div>
-
         <div class="table-wrapper">
           <table>
             <thead>
@@ -379,30 +106,21 @@ data:
                 <th>ID</th>
                 <th>Nombre</th>
                 <th>Apellido</th>
-                <th>Dirección</th>
+                <th>Direccion</th>
                 <th>Ciudad</th>
-                <th>Teléfono</th>
-                <th>Acción</th>
+                <th>Telefono</th>
+                <th>Accion</th>
               </tr>
             </thead>
             <tbody id="tbody">
-              <tr>
-                <td colspan="7">
-                  <div class="empty-state">
-                    <div class="empty-icon">🐕</div>
-                    <p>Cargando registros...</p>
-                  </div>
-                </td>
-              </tr>
+              <tr><td colspan="7"><div class="empty-state"><div class="empty-icon">&#x1F415;</div><p>Haz clic en Recargar para ver los registros</p></div></td></tr>
             </tbody>
           </table>
         </div>
       </main>
-
-      <!-- Modal -->
       <div class="modal-overlay" id="modal">
         <div class="modal">
-          <h3 class="modal-title">Nuevo Dueño</h3>
+          <h3 class="modal-title">Nuevo Dueno</h3>
           <div class="form-grid">
             <div class="form-group">
               <label>Nombre</label>
@@ -413,7 +131,7 @@ data:
               <input type="text" id="lastName" placeholder="Franklin">
             </div>
             <div class="form-group full">
-              <label>Dirección</label>
+              <label>Direccion</label>
               <input type="text" id="address" placeholder="110 W. Liberty St.">
             </div>
             <div class="form-group">
@@ -421,7 +139,7 @@ data:
               <input type="text" id="city" placeholder="Madison">
             </div>
             <div class="form-group">
-              <label>Teléfono</label>
+              <label>Telefono</label>
               <input type="text" id="telephone" placeholder="6085551023">
             </div>
           </div>
@@ -431,46 +149,39 @@ data:
           </div>
         </div>
       </div>
-
       <div class="toast" id="toast"></div>
-
       <script>
         var AUTH = 'Basic YWRtaW46YWRtaW4=';
-
         function setStatus(ok, msg) {
           var dot = document.getElementById('statusDot');
           var txt = document.getElementById('statusText');
           dot.className = 'status-dot ' + (ok ? 'online' : 'error');
           txt.textContent = msg;
         }
-
         function showToast(msg, type) {
           var t = document.getElementById('toast');
           t.textContent = msg;
           t.className = 'toast ' + type + ' show';
           setTimeout(function() { t.className = 'toast'; }, 3000);
         }
-
         function cargarDuenos() {
+          setStatus(false, 'Cargando...');
           fetch('/petclinic/api/owners?lastName=', { headers: { 'Authorization': AUTH } })
-            .then(function(r) {
-              if (!r.ok) throw new Error('HTTP ' + r.status);
-              return r.json();
-            })
+            .then(function(r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
             .then(function(data) {
-              setStatus(true, data.length + ' dueños registrados');
+              setStatus(true, data.length + ' duenos registrados');
               var html = '';
               if (data.length === 0) {
-                html = '<tr><td colspan="7"><div class="empty-state"><div class="empty-icon">🐕</div><p>No hay dueños registrados.</p></div></td></tr>';
+                html = '<tr><td colspan="7"><div class="empty-state"><div class="empty-icon">&#x1F415;</div><p>No hay duenos registrados.</p></div></td></tr>';
               } else {
                 data.forEach(function(p) {
                   html += '<tr>' +
                     '<td><span class="id-badge">#' + p.id + '</span></td>' +
-                    '<td class="name-cell">' + (p.firstName || '') + '</td>' +
-                    '<td class="name-cell">' + (p.lastName || '') + '</td>' +
-                    '<td>' + (p.address || '-') + '</td>' +
-                    '<td><span class="city-chip">📍 ' + (p.city || '-') + '</span></td>' +
-                    '<td>' + (p.telephone || '-') + '</td>' +
+                    '<td class="name-cell">' + (p.firstName||'') + '</td>' +
+                    '<td class="name-cell">' + (p.lastName||'') + '</td>' +
+                    '<td>' + (p.address||'-') + '</td>' +
+                    '<td><span class="city-chip">&#x1F4CD; ' + (p.city||'-') + '</span></td>' +
+                    '<td>' + (p.telephone||'-') + '</td>' +
                     '<td><button class="btn btn-danger" onclick="eliminarDueno(' + p.id + ')">Eliminar</button></td>' +
                     '</tr>';
                 });
@@ -478,22 +189,15 @@ data:
               document.getElementById('tbody').innerHTML = html;
             })
             .catch(function(err) {
-              setStatus(false, 'Error al conectar: ' + err.message);
-              document.getElementById('tbody').innerHTML = '<tr><td colspan="7"><div class="empty-state"><div class="empty-icon">⚠️</div><p>Error al cargar los datos.</p></div></td></tr>';
+              setStatus(false, 'Error: ' + err.message);
+              document.getElementById('tbody').innerHTML = '<tr><td colspan="7"><div class="empty-state"><div class="empty-icon">&#x26A0;&#xFE0F;</div><p>Error al cargar los datos.</p></div></td></tr>';
             });
         }
-
-        function abrirModal() {
-          document.getElementById('modal').classList.add('open');
-        }
-
+        function abrirModal() { document.getElementById('modal').classList.add('open'); }
         function cerrarModal() {
           document.getElementById('modal').classList.remove('open');
-          ['firstName','lastName','address','city','telephone'].forEach(function(id) {
-            document.getElementById(id).value = '';
-          });
+          ['firstName','lastName','address','city','telephone'].forEach(function(id) { document.getElementById(id).value = ''; });
         }
-
         function guardarDueno() {
           var body = {
             firstName: document.getElementById('firstName').value,
@@ -502,59 +206,26 @@ data:
             city: document.getElementById('city').value,
             telephone: document.getElementById('telephone').value
           };
-
-          if (!body.firstName || !body.lastName) {
-            showToast('Nombre y apellido son requeridos', 'error');
-            return;
-          }
-
+          if (!body.firstName || !body.lastName) { showToast('Nombre y apellido son requeridos', 'error'); return; }
           var btn = document.getElementById('btnGuardar');
           btn.innerHTML = '<span class="loading"></span>';
           btn.disabled = true;
-
           fetch('/petclinic/api/owners', {
             method: 'POST',
-            headers: {
-              'Authorization': AUTH,
-              'Content-Type': 'application/json'
-            },
+            headers: { 'Authorization': AUTH, 'Content-Type': 'application/json' },
             body: JSON.stringify(body)
           })
-            .then(function(r) {
-              if (!r.ok) throw new Error('HTTP ' + r.status);
-              return r.json();
-            })
-            .then(function() {
-              cerrarModal();
-              showToast('Dueño agregado exitosamente', 'success');
-              cargarDuenos();
-            })
-            .catch(function(err) {
-              showToast('Error al guardar: ' + err.message, 'error');
-            })
-            .finally(function() {
-              btn.innerHTML = 'Guardar';
-              btn.disabled = false;
-            });
+            .then(function(r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+            .then(function() { cerrarModal(); showToast('Dueno agregado exitosamente', 'success'); cargarDuenos(); })
+            .catch(function(err) { showToast('Error al guardar: ' + err.message, 'error'); })
+            .finally(function() { btn.innerHTML = 'Guardar'; btn.disabled = false; });
         }
-
         function eliminarDueno(id) {
-          if (!confirm('¿Eliminar este dueño?')) return;
-          fetch('/petclinic/api/owners/' + id, {
-            method: 'DELETE',
-            headers: { 'Authorization': AUTH }
-          })
-            .then(function(r) {
-              if (!r.ok) throw new Error('HTTP ' + r.status);
-              showToast('Dueño eliminado', 'success');
-              cargarDuenos();
-            })
-            .catch(function(err) {
-              showToast('Error: ' + err.message, 'error');
-            });
+          if (!confirm('Eliminar este dueno?')) return;
+          fetch('/petclinic/api/owners/' + id, { method: 'DELETE', headers: { 'Authorization': AUTH } })
+            .then(function(r) { if (!r.ok) throw new Error('HTTP ' + r.status); showToast('Dueno eliminado', 'success'); cargarDuenos(); })
+            .catch(function(err) { showToast('Error: ' + err.message, 'error'); });
         }
-
-        cargarDuenos();
       </script>
     </body>
     </html>
@@ -562,16 +233,14 @@ data:
     server {
       listen 80;
       server_name localhost;
-
+      charset utf-8;
       root /usr/share/nginx/html;
       index index.html;
-
       location / {
         try_files $uri $uri/ /index.html;
       }
-
       location /petclinic {
-        proxy_pass http://{{ .Values.frontend.backendService }}:{{ .Values.backend.port | default 9966 }};
+        proxy_pass http://{{ include "pedido-app.fullname" . }}-backend:{{ .Values.backend.port | default 9966 }};
         proxy_http_version 1.1;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
