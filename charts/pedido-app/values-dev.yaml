@@ -28,6 +28,8 @@ backend:
       memory: 1024Mi
 
 frontend:
+  frontend:
+    backendService: "pedido-app-dev-backend"
   image:
     repository: nginx
     tag: "alpine"
